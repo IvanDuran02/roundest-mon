@@ -1,15 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { getOptionsForVote } from "../utils/getRandomPokemon";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const { data, isLoading } = trpc.useQuery(["hello", { text: "Ivan" }]);
-
-  if (isLoading) return <div>Loading...</div>;
-
-  if (data) return <div>{data.greeting}</div>;
-
+  const [first, second] = getOptionsForVote();
+  console.log(first, second);
   return (
     <div>
       <Head>
@@ -21,9 +18,13 @@ const Home: NextPage = () => {
         <div className="text-2xl text-center">Which Pokémon is Rounder?</div>
         <div className="p-4" />
         <div className="border rounded p-8 flex justify-between max-w-7xl items-center">
-          <div className="w-16  h-16 bg-slate-300" />
+          <div className="w-16  h-16 bg-slate-300" suppressHydrationWarning>
+            {first}
+          </div>
           <div className="p-8">Vs</div>
-          <div className="w-16 h-16 bg-red-500" />
+          <div className="w-16 h-16 bg-red-500" suppressHydrationWarning>
+            {second}
+          </div>
         </div>
       </div>
     </div>
